@@ -1,0 +1,418 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign in</title>
+    <style>
+      :root{
+        --bg:#0b0d13;
+        --panel:rgba(16,18,27,.72);
+        --border:rgba(255,255,255,.08);
+        --text:rgba(255,255,255,.92);
+        --muted:rgba(255,255,255,.60);
+        --muted2:rgba(255,255,255,.38);
+        --input:rgba(255,255,255,.06);
+        --inputBorder:rgba(255,255,255,.10);
+        --shadow:0 30px 80px rgba(0,0,0,.55);
+        --radius:18px;
+        --accent1:#a78bfa;
+        --accent2:#22d3ee;
+      }
+
+      *{box-sizing:border-box}
+      html,body{
+        height:100%;
+        margin:0;
+        font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+        color:var(--text);
+        background:
+          radial-gradient(1200px 800px at 20% 10%, rgba(167,139,250,.20), transparent 55%),
+          radial-gradient(900px 700px at 85% 30%, rgba(34,211,238,.16), transparent 50%),
+          radial-gradient(800px 700px at 50% 95%, rgba(255,255,255,.06), transparent 60%),
+          var(--bg);
+        overflow:hidden;
+      }
+
+      body::before{
+        content:"";
+        position:fixed; inset:0;
+        background-image:
+          linear-gradient(rgba(255,255,255,.015) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,.015) 1px, transparent 1px);
+        background-size:42px 42px;
+        opacity:.35;
+        pointer-events:none;
+      }
+
+      .shell{height:100%;display:flex;align-items:center;justify-content:center;padding:28px}
+
+      .layout{
+        width:min(1180px, 96vw);
+        height:min(720px, 86vh);
+        display:grid;
+        grid-template-columns: 1fr 460px;
+        gap: 34px;
+        align-items:center;
+        position:relative;
+      }
+
+      /* subtle vertical divider */
+      .layout::after{
+        content:"";
+        position:absolute;
+        top:6%;
+        bottom:6%;
+        left:calc(100% - 460px - 17px);
+        width:1px;
+        background:linear-gradient(to bottom, transparent, rgba(255,255,255,.10), transparent);
+        opacity:.9;
+        pointer-events:none;
+      }
+
+      .left{
+        padding: 22px 10px 22px 22px;
+        max-width: 640px;
+      }
+
+      .leftHeader{
+        display:flex;
+        align-items:center;
+        gap:16px;
+        margin-bottom:16px;
+      }
+
+      .leftLogo{
+        width:54px;
+        height:54px;
+        border-radius:16px;
+        background:
+          radial-gradient(16px 16px at 25% 30%, rgba(255,255,255,.85), rgba(255,255,255,0) 70%),
+          linear-gradient(135deg, rgba(167,139,250,.95), rgba(34,211,238,.85));
+        box-shadow:0 18px 48px rgba(167,139,250,.22);
+      }
+
+      .leftTitle{
+        margin:0;
+        font-size:40px;
+        letter-spacing:-.8px;
+        font-weight:750;
+      }
+
+      .leftSub{
+        margin:6px 0 0;
+        color:var(--muted);
+        font-size:14px;
+        line-height:1.55;
+      }
+
+      .tagline{
+        margin-top:10px;
+        color:var(--muted2);
+        font-size:13px;
+      }
+
+      .features{
+        margin:22px 0 0;
+        padding:0;
+        list-style:none;
+        display:grid;
+        gap:14px;
+      }
+
+      .feature{
+        display:flex;
+        gap:12px;
+        align-items:flex-start;
+        color:rgba(255,255,255,.82);
+      }
+
+      .fIcon{
+        width:22px;
+        height:22px;
+        opacity:.85;
+        flex:0 0 auto;
+        margin-top:2px;
+        color:rgba(167,139,250,.95);
+      }
+
+      .featureText{
+        display:grid;
+        gap:3px;
+      }
+
+      .featureText b{ font-size:14px; font-weight:650; }
+      .featureText span{ color:var(--muted); font-size:13px; line-height:1.4; }
+
+      .badgeRow{ margin-top:18px; display:flex; gap:10px; flex-wrap:wrap; }
+      .badge{
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
+        padding:8px 12px;
+        border-radius:999px;
+        border:1px solid rgba(34,211,238,.20);
+        background:rgba(34,211,238,.10);
+        color:rgba(255,255,255,.82);
+        font-size:12px;
+      }
+
+      .badgeDot{
+        width:8px;
+        height:8px;
+        border-radius:99px;
+        background:rgba(34,211,238,.90);
+        box-shadow:0 0 0 6px rgba(34,211,238,.12);
+      }
+
+      @media (max-width: 980px){
+        .layout{ grid-template-columns: 1fr; height:auto; }
+        .layout::after{ display:none; }
+        .left{ padding: 12px; max-width: unset; }
+      }
+      .card{
+        width:min(440px,92vw);
+        background:var(--panel);
+        border:1px solid var(--border);
+        border-radius:var(--radius);
+        box-shadow:var(--shadow);
+        backdrop-filter:blur(18px);
+        -webkit-backdrop-filter:blur(18px);
+        overflow:hidden;
+      }
+
+      .top{padding:22px 22px 14px;display:flex;align-items:center;justify-content:space-between}
+      .brand{display:flex;gap:10px;align-items:center}
+      .logo{
+        width:34px;height:34px;border-radius:12px;
+        background:
+          radial-gradient(12px 12px at 25% 30%, rgba(255,255,255,.85), rgba(255,255,255,0) 70%),
+          linear-gradient(135deg, rgba(167,139,250,.95), rgba(34,211,238,.85));
+        box-shadow:0 10px 30px rgba(167,139,250,.22);
+      }
+      .brand h1{margin:0;font-size:14px;font-weight:620;letter-spacing:.2px}
+      .brand p{margin:0;font-size:12px;color:var(--muted2)}
+      .pill{
+        font-size:12px;color:var(--muted);
+        border:1px solid rgba(255,255,255,.10);
+        background:rgba(255,255,255,.04);
+        padding:7px 10px;border-radius:999px;
+      }
+
+      .content{padding:8px 22px 22px}
+      .title{margin:0 0 4px;font-size:22px;font-weight:650;letter-spacing:-.25px}
+      .subtitle{margin:0 0 18px;font-size:13px;color:var(--muted);line-height:1.45}
+
+      .row{display:grid;gap:10px;margin:12px 0}
+      label{font-size:12px;color:var(--muted)}
+
+      .input{
+        display:flex;align-items:center;gap:10px;
+        background:var(--input);
+        border:1px solid var(--inputBorder);
+        border-radius:12px;
+        padding:10px 12px;
+        transition:border-color 140ms ease, box-shadow 140ms ease;
+      }
+      .input:focus-within{
+        border-color:rgba(167,139,250,.55);
+        box-shadow:0 0 0 4px rgba(167,139,250,.15);
+      }
+      .input input{
+        width:100%;
+        background:transparent;border:none;outline:none;
+        color:var(--text);font-size:14px;
+      }
+      .input input::placeholder{color:rgba(255,255,255,.30)}
+      .icon{width:18px;height:18px;opacity:.65;flex:0 0 auto}
+
+      .tiny{
+        font-size:12px;color:var(--muted);
+        display:flex;justify-content:space-between;align-items:center;gap:8px;
+      }
+
+      .toggle{
+        border:0;background:transparent;
+        color:rgba(255,255,255,.65);
+        cursor:pointer;padding:2px 6px;border-radius:8px;
+        font-weight:600;
+      }
+      .toggle:hover{background:rgba(255,255,255,.06)}
+
+      .link{color:rgba(167,139,250,.95);text-decoration:none}
+      .link:hover{text-decoration:underline}
+      .actions{display:grid;gap:10px;margin-top:16px}
+
+      .btn{
+        border:1px solid rgba(255,255,255,.12);
+        background:rgba(255,255,255,.06);
+        color:var(--text);
+        padding:11px 12px;border-radius:12px;
+        cursor:pointer;font-weight:600;font-size:14px;
+        transition:transform 110ms ease, background 120ms ease, border-color 120ms ease;
+        display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      }
+      .btn:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18)}
+      .btn:active{transform:translateY(1px)}
+      .btn.primary{
+        border:1px solid rgba(167,139,250,.35);
+        background:linear-gradient(135deg, rgba(167,139,250,.95), rgba(34,211,238,.70));
+        color:#0b0d13;
+      }
+      .btn[disabled]{opacity:.65;cursor:not-allowed}
+
+      .split{
+        display:grid;grid-template-columns:1fr auto 1fr;
+        align-items:center;gap:12px;margin:14px 0;
+        color:var(--muted2);font-size:12px;
+      }
+      .split::before,.split::after{content:"";height:1px;background:rgba(255,255,255,.10)}
+
+      .error{
+        margin-top:10px;
+        padding:10px 12px;border-radius:12px;
+        border:1px solid rgba(251,113,133,.38);
+        background:rgba(251,113,133,.10);
+        color:rgba(255,255,255,.9);
+        font-size:13px;
+        display:none;
+      }
+
+      .hint{margin-top:10px;font-size:12px;color:rgba(255,255,255,.38)}
+      .kbd{
+        border:1px solid rgba(255,255,255,.16);
+        background:rgba(255,255,255,.05);
+        padding:2px 6px;border-radius:6px;
+        font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Courier New",monospace;
+        font-size:11px;color:rgba(255,255,255,.75);
+      }
+
+      .footer{
+        padding:14px 22px 18px;
+        border-top:1px solid rgba(255,255,255,.07);
+        color:var(--muted2);
+        font-size:12px;
+        display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="shell">
+      <div class="layout">
+        <section class="left">
+          <div class="leftHeader">
+            <div class="leftLogo" aria-hidden="true"></div>
+            <div>
+              <h1 class="leftTitle">RBAC OS</h1>
+              <p class="leftSub">Role‑Based Access Control<br/>Enterprise Security Platform</p>
+            </div>
+          </div>
+
+          <div class="tagline">Secure access. Clear roles. Full auditability.</div>
+
+          <ul class="features">
+            <li class="feature">
+              <svg class="fIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M12 2 20 6v6c0 5-3.4 9.4-8 10-4.6-.6-8-5-8-10V6l8-4Z" stroke="currentColor" stroke-width="1.6"/>
+                <path d="m9.5 12 1.8 1.8 3.7-3.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <div class="featureText"><b>Zero‑Trust Architecture</b><span>Least‑privilege by default with continuous verification.</span></div>
+            </li>
+            <li class="feature">
+              <svg class="fIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M7.5 10.5V8.5a4.5 4.5 0 0 1 9 0v2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M6.5 10.5h11c1.1 0 2 .9 2 2v5c0 1.1-.9 2-2 2h-11c-1.1 0-2-.9-2-2v-5c0-1.1.9-2 2-2Z" stroke="currentColor" stroke-width="1.6"/>
+              </svg>
+              <div class="featureText"><b>Biometric Authentication</b><span>Touch ID / Windows Hello + password fallback.</span></div>
+            </li>
+            <li class="feature">
+              <svg class="fIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M12 3c3.3 0 6 2.7 6 6v3c0 4-2.7 7-6 7s-6-3-6-7V9c0-3.3 2.7-6 6-6Z" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M8 14c1.2 1.2 2.6 2 4 2s2.8-.8 4-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+              <div class="featureText"><b>Granular Role Management</b><span>Fine‑grained permissions across teams and services.</span></div>
+            </li>
+            <li class="feature">
+              <svg class="fIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M4 18V6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M8 18V10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M12 18V8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M16 18V12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M20 18V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+              <div class="featureText"><b>Real‑Time Audit Logging</b><span>Track access, changes, and anomalies instantly.</span></div>
+            </li>
+          </ul>
+
+          <div class="badgeRow">
+            <div class="badge"><span class="badgeDot"></span> SOC 2 Type II Ready</div>
+            <div class="badge"><span class="badgeDot"></span> Encrypted at Rest</div>
+          </div>
+        </section>
+
+        <section>
+          <div class="card">
+            <div class="top">
+              <div class="brand">
+                <div class="logo" aria-hidden="true"></div>
+                <div>
+                  <h1>AuthFrontElec</h1>
+                  <p>Sign in to continue</p>
+                </div>
+              </div>
+              <div class="pill">Desktop</div>
+            </div>
+
+            <div class="content">
+              <h2 class="title">Welcome back</h2>
+              <p class="subtitle">Use biometrics (Touch ID / Windows Hello) or sign in with your password.</p>
+
+              <form id="loginForm" autocomplete="on">
+                <div class="row">
+                  <label for="email">Email</label>
+                  <div class="input">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M4 6.5C4 5.12 5.12 4 6.5 4h11C19.88 4 21 5.12 21 6.5v11c0 1.38-1.12 2.5-2.5 2.5h-11C5.12 20 4 18.88 4 17.5v-11Z" stroke="currentColor" stroke-width="1.5" opacity="0.9"/>
+                      <path d="M6.5 7.5 12 12l5.5-4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <input id="email" name="email" type="email" placeholder="name@company.com" required />
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="tiny">
+                    <label for="password">Password</label>
+                    <a class="link" href="#" id="forgot">Forgot?</a>
+                  </div>
+
+                  <div class="input">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M7.5 10.5V8.5a4.5 4.5 0 0 1 9 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                      <path d="M6.5 10.5h11c1.1 0 2 .9 2 2v5c0 1.1-.9 2-2 2h-11c-1.1 0-2-.9-2-2v-5c0-1.1.9-2 2-2Z" stroke="currentColor" stroke-width="1.5"/>
+                    </svg>
+                    <input id="password" name="password" type="password" placeholder="Enter your password" minlength="6" required />
+                    <button type="button" class="toggle" id="togglePw" aria-label="Show password">Show</button>
+                  </div>
+                </div>
+
+                <div class="actions">
+                  <button class="btn primary" id="bioBtn" type="button">Use biometrics</button>
+                  <div class="hint">If biometrics aren’t available on this device, use your password below.</div>
+                  <button class="btn" id="signInBtn" type="submit">Sign in with password</button>
+                  <div class="error" id="errorBox"></div>
+                </div>
+              </form>
+            </div>
+
+            <div class="footer">
+              <div>Protected by RBAC OS Security</div>
+              <div><a class="link" href="#" id="privacy">Privacy</a> · <a class="link" href="#" id="terms">Terms</a></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <script src="renderer.js"></script>
+  </body>
+</html>
