@@ -1,0 +1,25 @@
+{
+  "name": "rbac-os",
+  "version": "1.0.0",
+  "description": "RBAC OS - Role-Based Access Control Enterprise Security Platform",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KaveenKrithik/AuthFrontElec.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/KaveenKrithik/AuthFrontElec/issues"
+  },
+  "homepage": "https://github.com/KaveenKrithik/AuthFrontElec#readme",
+  "devDependencies": {
+    "electron": "^40.0.0"
+  }
+}
