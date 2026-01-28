@@ -87,18 +87,118 @@
                         <span>Real-Time Audit Logging</span>
                     </div>
                 </div>
+            </div>
         </div>
 
-        <!-- Right Panel - Auth Form -->
+        <!-- Right Panel - Auth Views -->
         <div class="auth-panel">
-            <div class="auth-card">
+            
+            <!-- VIEW 1: SIGN UP -->
+            <div class="auth-card" id="signup-view">
                 <div class="auth-header">
-                    <h2>Welcome back</h2>
-                    <p>Sign in to access your secure workspace</p>
+                    <h2>Create Account</h2>
+                    <p>Set up your credentials and biometric access</p>
                 </div>
 
-                <!-- Biometric Auth Button -->
-                <button class="biometric-btn" id="biometric-btn">
+                <form class="auth-form" id="signup-form">
+                    <div class="input-group">
+                        <label for="signup-email">Email</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                            <input type="email" id="signup-email" placeholder="name@company.com" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="signup-password">Password</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                            <input type="password" id="signup-password" placeholder="Minimum 6 characters" required minlength="6">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="signup-confirm">Confirm Password</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                            <input type="password" id="signup-confirm" placeholder="Confirm your password" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="signup-btn">
+                        <span>Create Account & Set Up Biometric</span>
+                        <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                </form>
+
+                <p class="switch-view">
+                    Already have an account? <a href="#" id="goto-login">Sign In</a>
+                </p>
+            </div>
+
+            <!-- VIEW 2: BIOMETRIC ENROLLMENT -->
+            <div class="auth-card hidden" id="enroll-view">
+                <div class="auth-header">
+                    <h2>Set Up Biometric</h2>
+                    <p>Enroll your fingerprint or face for secure login</p>
+                </div>
+
+                <div class="biometric-enroll">
+                    <div class="biometric-icon-large">
+                        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="40" cy="40" r="35" stroke="currentColor" stroke-width="2" opacity="0.2"/>
+                            <circle cx="40" cy="40" r="25" stroke="currentColor" stroke-width="2" opacity="0.4"/>
+                            <circle cx="40" cy="40" r="15" stroke="currentColor" stroke-width="2" opacity="0.7"/>
+                            <circle cx="40" cy="40" r="5" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <p class="enroll-instruction">Click the button below to enroll your biometric.<br/>Windows Hello will prompt for your fingerprint or face.</p>
+                    
+                    <button class="biometric-enroll-btn" id="enroll-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <path d="M9 12l2 2 4-4"/>
+                        </svg>
+                        <span>Enroll Biometric</span>
+                    </button>
+
+                    <div class="enroll-status hidden" id="enroll-status">
+                        <div class="status-spinner"></div>
+                        <span>Waiting for biometric...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 3: LOGIN (Biometric Only) -->
+            <div class="auth-card hidden" id="login-view">
+                <div class="auth-header">
+                    <h2>Welcome Back</h2>
+                    <p>Authenticate with your biometric to continue</p>
+                </div>
+
+                <div class="user-info" id="user-info">
+                    <div class="user-avatar">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </div>
+                    <span class="user-email" id="user-email-display">user@example.com</span>
+                    <a href="#" class="switch-user" id="switch-user">Not you?</a>
+                </div>
+
+                <button class="biometric-btn-large" id="biometric-login-btn">
                     <div class="biometric-icon">
                         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="2" opacity="0.3"/>
@@ -107,19 +207,10 @@
                             <circle cx="24" cy="24" r="3" fill="currentColor"/>
                         </svg>
                     </div>
-                    <div class="biometric-text">
-                        <span class="biometric-title">Sign in with Biometrics</span>
-                        <span class="biometric-subtitle">Windows Hello • Fingerprint • Face ID</span>
-                    </div>
-                    <div class="biometric-arrow">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7"/>
-                        </svg>
-                    </div>
+                    <span>Authenticate with Biometric</span>
                 </button>
 
-                <!-- Biometric Status -->
-                <div class="biometric-status" id="biometric-status">
+                <div class="biometric-status hidden" id="login-status">
                     <div class="status-icon scanning">
                         <div class="pulse-ring"></div>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -129,97 +220,58 @@
                     <span class="status-text">Scanning biometric data...</span>
                 </div>
 
-                <div class="divider">
-                    <span>or sign in with credentials</span>
-                </div>
+                <p class="switch-view">
+                    New user? <a href="#" id="goto-signup">Create Account</a>
+                </p>
+            </div>
 
-                <!-- Login Form -->
-                <form class="auth-form" id="auth-form">
-                    <div class="input-group">
-                        <label for="email">Corporate Email</label>
-                        <div class="input-wrapper">
-                            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                                <polyline points="22,6 12,13 2,6"/>
-                            </svg>
-                            <input type="email" id="email" name="email" placeholder="name@company.com" required>
-                        </div>
-                    </div>
-
-                    <div class="input-group">
-                        <div class="label-row">
-                            <label for="password">Password</label>
-                            <a href="#" class="forgot-link">Forgot password?</a>
-                        </div>
-                        <div class="input-wrapper">
-                            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                            </svg>
-                            <input type="password" id="password" name="password" placeholder="Enter your password" required>
-                            <button type="button" class="toggle-password" id="toggle-password" aria-label="Toggle password visibility">
-                                <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                    <circle cx="12" cy="12" r="3"/>
-                                </svg>
-                                <svg class="eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
-                                    <line x1="1" y1="1" x2="23" y2="23"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="form-options">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="remember" name="remember">
-                            <span class="checkbox-custom"></span>
-                            <span>Keep me signed in</span>
-                        </label>
-                    </div>
-
-                    <button type="submit" class="submit-btn" id="login-btn">
-                        <span>Sign In</span>
-                        <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7"/>
+            <!-- VIEW 4: WORKSPACE -->
+            <div class="auth-card hidden" id="workspace-view">
+                <div class="workspace-content">
+                    <div class="success-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
                         </svg>
-                    </button>
-                </form>
-
-                <!-- SSO Options -->
-                <div class="sso-section">
-                    <p class="sso-label">Enterprise Single Sign-On</p>
-                    <div class="sso-buttons">
-                        <button class="sso-btn" id="microsoft-sso">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M11.4 24H0V12.6h11.4V24zM24 24H12.6V12.6H24V24zM11.4 11.4H0V0h11.4v11.4zm12.6 0H12.6V0H24v11.4z"/>
-                            </svg>
-                            <span>Microsoft</span>
-                        </button>
-                        <button class="sso-btn" id="okta-sso">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <circle cx="12" cy="12" r="10"/>
-                            </svg>
-                            <span>Okta</span>
-                        </button>
-                        <button class="sso-btn" id="saml-sso">
+                    </div>
+                    <h2>Welcome to RBAC OS</h2>
+                    <p class="workspace-user">Logged in as <span id="workspace-email">user@example.com</span></p>
+                    
+                    <div class="workspace-menu">
+                        <button class="workspace-btn">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                <rect x="3" y="3" width="7" height="7"/>
+                                <rect x="14" y="3" width="7" height="7"/>
+                                <rect x="14" y="14" width="7" height="7"/>
+                                <rect x="3" y="14" width="7" height="7"/>
                             </svg>
-                            <span>SAML</span>
+                            <span>Dashboard</span>
+                        </button>
+                        <button class="workspace-btn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                            <span>User Management</span>
+                        </button>
+                        <button class="workspace-btn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                            </svg>
+                            <span>Settings</span>
                         </button>
                     </div>
-                </div>
 
-                <div class="auth-footer">
-                    <p>Protected by RBAC OS Security</p>
-                    <div class="footer-links">
-                        <a href="#">Privacy Policy</a>
-                        <span>•</span>
-                        <a href="#">Terms of Service</a>
-                        <span>•</span>
-                        <a href="#">Support</a>
-                    </div>
+                    <button class="logout-btn" id="logout-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                            <polyline points="16 17 21 12 16 7"/>
+                            <line x1="21" y1="12" x2="9" y2="12"/>
+                        </svg>
+                        <span>Sign Out</span>
+                    </button>
                 </div>
             </div>
         </div>

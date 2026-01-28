@@ -1,16 +1,22 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
-// Expose protected methods that allow the renderer process to use
-// the ipcRenderer without exposing the entire object
 contextBridge.exposeInMainWorld('electronAPI', {
     // Window controls
     minimizeWindow: () => ipcRenderer.send('window-minimize'),
     maximizeWindow: () => ipcRenderer.send('window-maximize'),
     closeWindow: () => ipcRenderer.send('window-close'),
     
-    // Biometric authentication
-    authenticateBiometric: () => ipcRenderer.invoke('biometric-auth'),
+    // Auth
+    register: (email, password) => ipcRenderer.invoke('auth:register', { email, password }),
+    login: (email, password) => ipcRenderer.invoke('auth:login', { email, password }),
+    logout: () => ipcRenderer.invoke('auth:logout'),
+    getUser: () => ipcRenderer.invoke('auth:get-user'),
     
-    // Platform info
+    // Biometric
+    enableBiometric: () => ipcRenderer.invoke('auth:enable-biometric'),
+    authenticateBiometric: (email) => ipcRenderer.invoke('auth:biometric', { email }),
+    checkBiometric: (email) => ipcRenderer.invoke('auth:check-biometric', { email }),
+    
+    // Platform
     platform: process.platform
 });
